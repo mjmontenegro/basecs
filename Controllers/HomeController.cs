@@ -47,7 +47,9 @@ namespace crudi.Controllers
                     newUser.Password = Hasher.HashPassword(newUser, newUser.Password);
                     dbContext.Add(newUser);
                     dbContext.SaveChanges();
-                    return RedirectToAction("Success");
+                    User userInDb = dbContext.Users.FirstOrDefault(u => u.Email == newUser.Email);
+                    HttpContext.Session.SetInt32("UserId", userInDb.UserId);
+                    return RedirectToAction("Dashboard");
                 }
                 else
                 {
@@ -69,15 +71,15 @@ namespace crudi.Controllers
                     {
                         //log in user
                         HttpContext.Session.SetInt32("UserId", userInDb.UserId);
-                        return RedirectToAction("Success");
+                        return RedirectToAction("Dashboard");
                     }
                 }
                 ModelState.AddModelError("LoginEmail", "Invalid Email/Password");
             }
             return View("Index");
         }
-        [HttpGet("success")]
-        public IActionResult Success()
+        [HttpGet("Dashboard")]
+        public IActionResult Dashboard()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
@@ -85,7 +87,7 @@ namespace crudi.Controllers
                 return RedirectToAction("Index");
             }
             User LoggedInUser = dbContext.Users.FirstOrDefault(u => u.UserId == userId);
-            return View("Success", LoggedInUser);
+            return View("Dashboard", LoggedInUser);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

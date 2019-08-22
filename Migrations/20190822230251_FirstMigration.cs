@@ -12,19 +12,19 @@ namespace crudi.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
+                    id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false),
-                    Birthdate = table.Column<DateTime>(nullable: false)
+                    first_name = table.Column<string>(type: "VARCHAR(45)", nullable: false),
+                    last_name = table.Column<string>(type: "VARCHAR(45)", nullable: false),
+                    email = table.Column<string>(type: "VARCHAR(45)", nullable: false),
+                    password = table.Column<string>(type: "VARCHAR(255)", nullable: false),
+                    Birthdate = table.Column<DateTime>(nullable: false),
+                    created_at = table.Column<DateTime>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.id);
                 });
         }
 

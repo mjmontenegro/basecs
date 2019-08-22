@@ -20,25 +20,36 @@ namespace crudi.Migrations
             modelBuilder.Entity("crudi.Models.User", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("Birthdate");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Email")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("email")
+                        .HasColumnType("VARCHAR(45)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("first_name")
+                        .HasColumnType("VARCHAR(45)");
 
                     b.Property<string>("LastName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("last_name")
+                        .HasColumnType("VARCHAR(45)");
 
                     b.Property<string>("Password")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("password")
+                        .HasColumnType("VARCHAR(255)");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("UserId");
 

@@ -34,29 +34,29 @@ namespace crudi.Models
         public class User
         {
             [Key]
-            // [Column("id")]
+            [Column("id")]
             public int UserId {get;set;}
 
             [Required]
             [Display(Name = "Your First Name:")]
-            // [Column("first_name", TypeName="VARCHAR(45)")]
+            [Column("first_name", TypeName="VARCHAR(45)")]
             public string FirstName {get;set;}
 
             [Required]
             [Display(Name = "Your Last Name:")]
-            // [Column("last_name", TypeName="VARCHAR(45)")]
+            [Column("last_name", TypeName="VARCHAR(45)")]
             public string LastName {get;set;}
 
             [EmailAddress]
             [Required]
-            // [Column("email", TypeName="VARCHAR(45)")]
+            [Column("email", TypeName="VARCHAR(45)")]
             public string Email {get;set;}
 
             [DataType(DataType.Password)]
             [Required]
             [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", ErrorMessage="Password be at least 8 characters with at least 1 letter, number and special character")]
             // [MinLength(8, ErrorMessage="Password must be 8 characters or longer!")]
-            // [Column("password", TypeName="VARCHAR(255)")]
+            [Column("password", TypeName="VARCHAR(255)")]
             public string Password {get;set;}
 
             // Will not be mapped to your users table!
@@ -67,12 +67,12 @@ namespace crudi.Models
 
             [Required]
             [NoUnder13]
-            [DataType(DataType.DateTime)]  // TEST
+            [DataType(DataType.DateTime)]
             public DateTime Birthdate {get;set;}
 
-            // [Column("created_at")]
+            [Column("created_at")]
             public DateTime CreatedAt {get;set;} = DateTime.Now;
-            // [Column("updated_at")]
+            [Column("updated_at")]
             public DateTime UpdatedAt {get;set;} = DateTime.Now;
             
             //Navigation Properties
