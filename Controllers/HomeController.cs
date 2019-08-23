@@ -78,7 +78,7 @@ namespace crudi.Controllers
             }
             return View("Index");
         }
-        [HttpGet("Dashboard")]
+        [HttpGet("dashboard")]
         public IActionResult Dashboard()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
@@ -86,8 +86,74 @@ namespace crudi.Controllers
             {
                 return RedirectToAction("Index");
             }
-            User LoggedInUser = dbContext.Users.FirstOrDefault(u => u.UserId == userId);
-            return View("Dashboard", LoggedInUser);
+            ViewBag.Name = dbContext.Users.FirstOrDefault(u => u.UserId == userId).FirstName;
+            ViewBag.UserId = dbContext.Users.FirstOrDefault(u => u.UserId == userId).UserId;
+            List<Wedding> weddingsWithAttendees = dbContext.Weddings.Include(w => w.Attendees).ToList();
+            return View("Dashboard", weddingsWithAttendees);
+        }
+        [HttpGet("wedding/new")]
+        public IActionResult NewWedding()
+        {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Name = dbContext.Users.FirstOrDefault(u => u.UserId == userId).FirstName;
+            ViewBag.UserId = dbContext.Users.FirstOrDefault(u => u.UserId == userId).UserId;
+            return View("NewWedding");
+        }
+        [HttpPost("wedding/create")]
+        public IActionResult CreateWedding(Wedding newWedding)
+        {
+            if(ModelState.IsValid)
+            {
+                dbContext.Weddings.Add(newWedding);
+                dbContext.SaveChanges();
+                return RedirectToAction("Dashboard");
+            }
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Name = dbContext.Users.FirstOrDefault(u => u.UserId == userId).FirstName;
+            ViewBag.UserId = dbContext.Users.FirstOrDefault(u => u.UserId == userId).UserId;
+
+            return View("NewWedding");
+        }
+
+        [HttpGet("wedding/join/{weddingId}")]
+        public IActionResult Join(int weddingId)
+        {
+            // Add to DB
+            RSVP myRSVP = new RSVP();
+            myRSVP.UserId = (int)HttpContext.Session.GetInt32("UserId");
+            myRSVP.WeddingId = weddingId;
+            dbContext.RSVPs.Add(myRSVP);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
+        [HttpGet("wedding/leave/{weddingId}")]
+        public IActionResult Leave(int weddingId)
+        {
+            int userId = (int)HttpContext.Session.GetInt32("UserId");
+            RSVP resv = dbContext.RSVPs.FirstOrDefault(r => r.UserId == userId && r.WeddingId == weddingId);
+            dbContext.RSVPs.Remove(resv);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
+        [HttpGet("wedding/delete/{weddingId}")]
+        public IActionResult Delete(int weddingId)
+        {
+            int userId = (int)HttpContext.Session.GetInt32("UserId");
+            Wedding weddingToDelete = dbContext.Weddings.FirstOrDefault(w => w.WeddingId == weddingId);
+            if(weddingToDelete.UserId == userId)
+            {
+                dbContext.Weddings.Remove(weddingToDelete);4
+                dbContext.SaveChanges();
+            }
+            return RedirectToAction("Dashboard");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

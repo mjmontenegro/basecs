@@ -1,4 +1,51 @@
-@model User
+@model List<Wedding>
+
+<a asp-action="NewWedding">New Wedding</a>
+
+<h1>Here are the current weddings</h1>
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Wedding</th>
+      <th scope="col">Date</th>
+      <th scope="col">Guests</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+@foreach(Wedding wedding in Model)
+{
+    <tr>
+        <td>@wedding.WedderOne & @wedding.WedderTwo</td>
+        <td>@wedding.Date.ToString("MMMM d, yyyy")</td>
+        <td>@wedding.Attendees.Count</td>
+        <td>@if(wedding.UserId == ViewBag.UserId)
+            {
+                <a asp-action="Delete" asp-route-weddingId=@wedding.WeddingId>Delete</a>
+            }
+            else
+            {
+                @if(wedding.Attendees.Any(a => a.UserId == ViewBag.UserId))
+                {
+                    <a asp-action="Leave" asp-route-weddingId=@wedding.WeddingId>Un-RSVP</a>
+                }
+                else
+                {       
+                    <a asp-action="Join" asp-route-weddingId=@wedding.WeddingId>RSVP</a>
+                }
+            }
+            
+            
+            
+
+        </td>
+    </tr>
+}
 
 
-<h1>It worked @Model.FirstName !</h1>
+
+
+  </tbody>
+</table>

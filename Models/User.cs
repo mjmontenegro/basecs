@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 // using System.Linq;
 // using crudi.Models
 
@@ -54,7 +54,7 @@ namespace crudi.Models
 
             [DataType(DataType.Password)]
             [Required]
-            [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", ErrorMessage="Password be at least 8 characters with at least 1 letter, number and special character")]
+            // [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", ErrorMessage="Password be at least 8 characters with at least 1 letter, number and special character")]
             // [MinLength(8, ErrorMessage="Password must be 8 characters or longer!")]
             [Column("password", TypeName="VARCHAR(255)")]
             public string Password {get;set;}
@@ -65,10 +65,10 @@ namespace crudi.Models
             [DataType(DataType.Password)]
             public string Confirm {get;set;}
 
-            [Required]
-            [NoUnder13]
-            [DataType(DataType.DateTime)]
-            public DateTime Birthdate {get;set;}
+            // [Required]
+            // [NoUnder13]
+            // [DataType(DataType.DateTime)]
+            // public DateTime Birthdate {get;set;}
 
             [Column("created_at")]
             public DateTime CreatedAt {get;set;} = DateTime.Now;
@@ -76,6 +76,8 @@ namespace crudi.Models
             public DateTime UpdatedAt {get;set;} = DateTime.Now;
             
             //Navigation Properties
+            public List<RSVP> Reservations {get;set;}
+
 
             // Full Name Getter
             public string FullName

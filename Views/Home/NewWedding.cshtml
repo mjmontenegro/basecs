@@ -1,0 +1,28 @@
+@model Wedding
+<a asp-action="Dashboard">Dashboard</a>
+<h1>Create the wedding</h1>
+
+
+    <form asp-action="CreateWedding" asp-controller="Home" method="post">
+        <div class="form-group">
+            <label asp-for="WedderOne"></label>
+            <input asp-for="WedderOne">
+            <p></p><span asp-validation-for="WedderOne"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="WedderTwo"></label>
+            <input asp-for="WedderTwo">
+            <p></p><span asp-validation-for="WedderTwo"></span>
+        <div class="form-group">
+            <label asp-for="Address"></label>
+            <input asp-for="Address">
+            <p></p><span asp-validation-for="Address"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date"></label>
+            <input type="date" asp-for="Date">
+            <p></p><span asp-validation-for="Date"></span>
+        </div>
+            <input asp-for="UserId" type="hidden" value="@ViewBag.UserId">
+            <input  value="Create Wedding" type="submit">
+    </form>
